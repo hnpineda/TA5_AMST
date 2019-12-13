@@ -1,7 +1,7 @@
 // ORGINAL_1.3
 // Include librairies
 #include <WISOL.h>
-#include <Tsensors.h>
+#//include <Tsensors.h>
 #include <Wire.h>
 #include <math.h>
 
@@ -30,12 +30,15 @@ void loop() {
 	float axeX = getAxeX();// instead of get axeX from a function (coded), we get longitud o latitud
                            // i have to create a function for store the longitud and latitud, 
                            //just like the geTemp functon
+
+                           //ya existen estas funciones en la libreria TinyGPS, no es necesario crearlas
 	Serial.print("Check Axe X: "); Serial.println(axeX);// just for show in the serial monitor
 
     //obtenemos la temperatura que nos da un tipo de dato float
     float t = tSensors->getTemp();// instead of get temp from a function (coded), we get longitud o latitud
                                     // i have to create a function for store the longitud and latitud, 
                                     //just like the geTemp functon
+                                    //ya existen estas funciones en la libreria TinyGPS, no es necesario crearlas
                                     
     //hacemos un arreglo de bytes para poder enviar byte por byte mas adelante
     byte *float_byte = (byte *)&t;//i'm going to send it through sigfox
@@ -56,40 +59,34 @@ void loop() {
 
     Send_Pload(buf_str, payloadSize);
     // Wait 20s
-    
+
     delay(20000);
 	}
 	delay(1000);
 }
 
 
-// Return the acceleration on Axe X
+//Return the acceleration on Axe X
+/* 
 float getAxeX() {
-	acceleration_xyz *xyz_g;
-	xyz_g = (acceleration_xyz *)malloc(sizeof(acceleration_xyz));
-	tSensors->getAccXYZ(xyz_g);
-	float axeX = (float)xyz_g->x_g;
-	free(xyz_g);
+	acceleration_xyz *xyz_g;//creo un puntero
+	xyz_g = (acceleration_xyz *)malloc(sizeof(acceleration_xyz));//creo un espacion de memoria
+	tSensors->getAccXYZ(xyz_g);//el espacio de memoria es utilizado
+	float axeX = (float)xyz_g->x_g;//el contenido del espacio de memoria se guarda en una variable
+	free(xyz_g);// se libera el malloc
 	return axeX;
 }
-
-// Return the Longitud
-
+*/
 
 
-
-
-// Get the temperature
+//Get the temperature
+/*
 float getTemp() {
 	float temp = round(tSensors->getTemp() * 10) / 10.0;
 	Serial.print("Sending Temp: "); Serial.println(temp);
 	return temp;
 }
-
-float getLatitud(){
-    float temp = round 
-
-}
+*/
 
 // SendPayload Function => Send messages to the Sigfox Network
 void Send_Pload(uint8_t *sendData, int len) {

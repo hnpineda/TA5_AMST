@@ -10,11 +10,13 @@
 */
 // Include librairies
 #include <WISOL.h>
-#include <Tsensors.h>
+//#include <Tsensors.h>
 #include <Wire.h>
 #include <math.h>
+
 Isigfox *Isigfox = new WISOL();
 Tsensors *tSensors = new Tsensors();
+
 // Init function
 void setup() {
   Wire.begin();
