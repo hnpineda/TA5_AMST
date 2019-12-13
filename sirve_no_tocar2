@@ -1,0 +1,35 @@
+
+#!/bin/bash
+
+echo -e "\========================================="
+echo -e "MENU DE ADMINISTRACION"
+echo -e "=========================================\n"
+
+echo "1. Configuracion de rauter"
+
+echo "2. show interface"
+
+echo "3. show interface fa0/0"
+
+read opcion
+
+function rauter()
+{
+ssh -1 admin@10.10.10.1 show running-config > running_config.log;
+}
+
+function interface()
+{
+ssh -1 admin@10.10.10.1 show interface > interface.log; 
+}
+
+function interfacefa()
+{
+ssh -1 admin@10.10.10.1 show interface f0/0 > interfaceF00.log;
+}
+
+1) rauter;;
+2) interface;;
+3 interfacefa;;
+esac
+
