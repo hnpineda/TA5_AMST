@@ -1,3 +1,4 @@
+// ORGINAL_1.3
 // Include librairies
 #include <WISOL.h>
 #include <Tsensors.h>
@@ -17,15 +18,10 @@ void setup() {
 	Wire.setClock(100000);
 	// Init serial connection between Arduino and Modem
 	Serial.begin(9600);
-	//UINT16_t tempt;//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxesto no, necessary
 	// WISOL modem test
 	Isigfox->initSigfox();
 	Isigfox->testComms();
-	
-    // Init sensors on Thinxtra Module
-	//tSensors->initSensors();//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxesto no, i don't need thinxtra's sensors
-	// Init an interruption on the button of the Xkit
-	//tSensors->setButton(buttonIR);//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx no, i don't need thinxtra's sensors
+
 }
 
 // Infinite loop of the program
@@ -35,29 +31,33 @@ void loop() {
                            // i have to create a function for store the longitud and latitud, 
                            //just like the geTemp functon
 	Serial.print("Check Axe X: "); Serial.println(axeX);// just for show in the serial monitor
-	//if (axeX <= -0.4 or axeX >= 0.4) {
 
-		//obtenemos la temperatura que nos da un tipo de dato float
-		float t = tSensors->getTemp();// instead of get temp from a function (coded), we get longitud o latitud
-                                      // i have to create a function for store the longitud and latitud, 
-                                      //just like the geTemp functon
-		//hacemos un arreglo de bytes para poder enviar byte por byte mas adelante
-		byte *float_byte = (byte *)&t;//i'm going to send it through sigfox
-		byte *float_axeXb = (byte *)&axeX;
-		//indicamos el tamaño de nuestro mensaje sabiendo que el máximo tamaño es de 12 bytes
-		const uint8_t payloadSize = 8;//
-		uint8_t buf_str[payloadSize];
-		buf_str[0] = float_byte[0];
-		buf_str[1] = float_byte[1];
-		buf_str[2] = float_byte[2];
-		buf_str[3] = float_byte[3];
-		buf_str[4] = float_axeXb[0];
-		buf_str[5] = float_axeXb[1];
-		buf_str[6] = float_axeXb[2];
-		buf_str[7] = float_axeXb[3];
-		Send_Pload(buf_str, payloadSize);
-		// Wait 20s
-		delay(20000);
+    //obtenemos la temperatura que nos da un tipo de dato float
+    float t = tSensors->getTemp();// instead of get temp from a function (coded), we get longitud o latitud
+                                    // i have to create a function for store the longitud and latitud, 
+                                    //just like the geTemp functon
+                                    
+    //hacemos un arreglo de bytes para poder enviar byte por byte mas adelante
+    byte *float_byte = (byte *)&t;//i'm going to send it through sigfox
+    byte *float_axeXb = (byte *)&axeX;
+
+    //indicamos el tamaño de nuestro mensaje sabiendo que el máximo tamaño es de 12 bytes
+    const uint8_t payloadSize = 8;//
+    uint8_t buf_str[payloadSize];
+
+    buf_str[0] = float_byte[0];
+    buf_str[1] = float_byte[1];
+    buf_str[2] = float_byte[2];
+    buf_str[3] = float_byte[3];
+    buf_str[4] = float_axeXb[0];
+    buf_str[5] = float_axeXb[1];
+    buf_str[6] = float_axeXb[2];
+    buf_str[7] = float_axeXb[3];
+
+    Send_Pload(buf_str, payloadSize);
+    // Wait 20s
+    
+    delay(20000);
 	}
 	delay(1000);
 }
@@ -73,6 +73,11 @@ float getAxeX() {
 	return axeX;
 }
 
+// Return the Longitud
+
+
+
+
 
 // Get the temperature
 float getTemp() {
@@ -81,6 +86,10 @@ float getTemp() {
 	return temp;
 }
 
+float getLatitud(){
+    float temp = round 
+
+}
 
 // SendPayload Function => Send messages to the Sigfox Network
 void Send_Pload(uint8_t *sendData, int len) {
